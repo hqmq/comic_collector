@@ -21,3 +21,11 @@ Below the summary data there is a table of issues for this comic book.  The tabl
 > Please do not do anything crazy like install RMagick to make the thumbnail. Just stick a width/height attribute on the image tag.
 
 At the bottom of the table there should be an in-line form so that a new issue can be added diretly on this page. After adding an issue the summary data and tabular data should be updated.
+
+## Getting Started
+```bash
+$ git clone ...
+$ bundle install
+$ rake db:setup db:fixtures:load
+$ rails s
+```
