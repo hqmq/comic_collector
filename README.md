@@ -4,7 +4,7 @@ This application is a shared starting point for the URUG Battle Royale. It repre
 
 ## Design Specification
 
-The user experience for this application is kept inentionally simple so that implementing the various versions won't consume too much time and also so that the implementations can be presented and understood in a short time period.
+The user experience for this application is kept intentionally simple so that implementing the various versions won't consume too much time and also so that the implementations can be presented and understood in a short time period.
 
 The design consists of two pages. The list of comic books is a grid of cover art with names as captions to the cover art. The comic book detail page shows some summary data at the top and then has a tabular data about each of the issues of the comic.
 
@@ -20,7 +20,7 @@ Below the summary data there is a table of issues for this comic book.  The tabl
 
 > Please do not do anything crazy like install RMagick to make the thumbnail. Just stick a width/height attribute on the image tag.
 
-At the bottom of the table there should be an in-line form so that a new issue can be added diretly on this page. After adding an issue the summary data and tabular data should be updated.
+At the bottom of the table there should be an in-line form so that a new issue can be added directly on this page. After adding an issue the summary data and tabular data should be updated.
 
 ## Getting Started
 ```bash
