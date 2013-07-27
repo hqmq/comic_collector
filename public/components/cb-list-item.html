@@ -1,0 +1,39 @@
+<polymer-element name="cb-list-item" attributes="name cover_src book_id">
+  <template>
+    <style>
+      .cb-list-item-box{
+        width: 250px;
+        margin: 10px;
+        float: left;
+        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.16);
+        padding:10px;
+        border-radius: 25px;
+      }
+      .cover-img{
+        max-height: 200px;
+        max-width: 230px;
+        margin: auto;
+      }
+      .caption{
+        clear:both;
+        margin: auto;
+        height: 18pt;
+        font-size: 12pt;
+        width: 100%;
+        text-align: center;
+        color: rgb(90,90,90);
+      }
+    </style>
+    <a href="/books/{{book_id}}">
+      <div class="cb-list-item-box">
+        <center>
+          <img src="{{cover_src}}" class="cover-img"/>
+        </center>
+        <div class="caption">{{name}}</div>
+      </div>
+    </a>
+  </template>
+  <script>
+    Polymer('cb-list-item', {});
+  </script>
+</polymer-element>
