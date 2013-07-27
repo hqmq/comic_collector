@@ -1,5 +1,5 @@
+<link rel="import" href="/components/cb-list.html" />
+
 <h1 class="title">Listing books</h1>
 
-<% @books.each do |book| %>
-    <cb-list-item name="<%= book.name %>" cover_src="<%= book.cover_image_url %>" book_id="<%= book.id %>"></cb-list-item>
-<% end %>
+<cb-list></cb-list>

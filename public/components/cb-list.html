@@ -1,0 +1,18 @@
+<link rel="import" href="cb-list-item.html" />
+<link rel="import" href="../polymer-elements/polymer-ajax/polymer-ajax.html" />
+<polymer-element name="cb-list" attributes="">
+  <template>
+    <template repeat="{{books}}">
+      <cb-list-item name="{{name}}" cover_src="{{cover_image_url}}" book_id="{{id}}"></cb-list-item>
+    </template>
+    <polymer-ajax id="ajax" url="/books.json" handleAs="json" on-polymer-response="receiveAjax" auto></polymer-ajax>
+  </template>
+  <script>
+    Polymer('cb-list', {
+      books: null,
+      receiveAjax: function(e){
+        this.books = e.detail.response;
+      }
+    });
+  </script>
+</polymer-element>
