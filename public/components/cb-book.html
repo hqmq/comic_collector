@@ -1,0 +1,67 @@
+<!-- <link rel="import" href="cb-issue.html" /> -->
+<link rel="import" href="../polymer-elements/polymer-ajax/polymer-ajax.html" />
+<polymer-element name="cb-book" attributes="name cover_image_url book_id">
+  <template>
+    <div id="wrapper">
+      <img id="cover" src="{{cover_image_url}}" />
+      <h1 id="name">{{name}}</h1>
+      <div id="num_issues" class="detail">{{num_issues}} issues</div>
+      <div id="total_price" class="detail">Total ${{total_price}}</div>
+      <table id="issue-list">
+        <tr><th></th><th>#</th><th>Title</th><th>$</th></tr>
+        <template repeat="{{issues}}">
+          <tr>
+            <td><img class="issue-cover" src="{{cover_image_url}}"/></td>
+            <td>{{number}}</td>
+            <td>{{title}}</td>
+            <td>${{price}}</td>
+          </tr>
+        </template>
+      </table>
+      <polymer-ajax id="ajax" url="/books/{{book_id}}/issues.json" handleAs="json" on-polymer-response="receiveIssueList" auto></polymer-ajax>
+    </div>
+    <style>
+      #wrapper {
+        width: 800px;
+        margin: auto;
+      }
+      #cover{
+        max-width: 400px;
+        max-height: 300px;
+        float: left;
+      }
+      #name {
+        width: 100%;
+        text-align: center;
+        font-size: 40pt;
+        line-height: 50pt;
+      }
+      .detail {
+        font-size: 20pt;
+        text-align: center;
+        line-height: 30pt;
+      }
+      #issue-list{
+        width: 100%;
+        clear: both;
+      }
+      .issue-cover{
+        max-height: 100px;
+        max-width: 100px;
+      }
+    </style>
+  </template>
+  <script>
+    Polymer('cb-book', {
+      num_issues: 0,
+      total_price: 1.24,
+      receiveIssueList: function(e){
+        this.issues = e.detail.response;
+        this.num_issues = this.issues.length;
+        this.total_price = this.issues.reduce(function(sum, issue){
+          return sum + parseFloat(issue.price);
+        }, 0.0).toFixed(2);
+      }
+    });
+  </script>
+</polymer-element>

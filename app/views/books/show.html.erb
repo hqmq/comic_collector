@@ -1,24 +1,3 @@
-<p id="notice"><%= notice %></p>
+<link rel="import" href="/components/cb-book.html" />
 
-<h3><%= @book.name %></h3>
-<img src="<%= @book.cover_image_url %>" width="400" />
-<br />
-<%= link_to 'Edit', edit_book_path(@book) %> |
-<%= link_to 'Back', books_path %>
-<br />
-<table>
-  <tr>
-    <th>Issue #</th>
-    <th>Title</th>
-    <th>Cover</th>
-    <th>Price</th>
-  </tr>
-  <% @book.issues.each do |issue| %>
-    <tr>
-      <td><%= issue.number %></td>
-      <td><%= issue.title %></td>
-      <td><img src="<%= issue.cover_image_url %>" width="150" /></td>
-      <td><%= number_to_currency(issue.price) %></td>
-    </tr>
-  <% end %>
-</table>
+<cb-book name="<%= @book.name %>" cover_image_url="<%= @book.cover_image_url %>" book_id="<%= @book.id %>"></cb-book>
