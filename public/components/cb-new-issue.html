@@ -1,0 +1,68 @@
+<link rel="import" href="../polymer-elements/polymer-ajax/polymer-ajax.html" />
+<polymer-element name="cb-new-issue" attributes="book_id">
+  <template>
+    <fieldset>
+      <legend>New Issue</legend>
+      <div class="row">
+        <div class="half col">
+          <input type="text" id="title" placeholder="Title">
+        </div>
+        <div class="half col">
+          <input type="text" id="number" placeholder="Issue Number">
+        </div>
+      </div>
+      <div class="row">
+        <div class="half col">
+          <input type="text" id="cover_img_url" placeholder="URL to cover image">
+        </div>
+        <div class="half col">
+          <input type="text" id="price" placeholder="0.00">
+        </div>
+      </div>
+      <div class="row">
+        <button on-tap="attemptSave">Submit</button>
+      </div>
+    </fieldset>
+    <style>
+      fieldset{ with: 100%; }
+      div.row{
+        clear: both;
+      }
+      div.half{
+        width: 45%;
+      }
+      div.col{
+        float: left;
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+      div.col input{
+        width: 95%;
+      }
+    </style>
+    <polymer-ajax id="ajax" url="/books/{{book_id}}/issues.json" handleAs="json" on-polymer-response="responseReceived"></polymer-ajax>
+  </template>
+  <script>
+    Polymer('cb-new-issue', {
+      ready: function(){
+        
+      },
+      attemptSave: function(e){
+        this.$.ajax.params = JSON.stringify(this.getParams());
+        this.$.ajax.go({method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'}});
+      },
+      getParams: function(){
+        var params = {
+          'issue[title]': this.$.title.value,
+          'issue[number]': parseInt(this.$.number.value),
+          'issue[cover_image_url]': this.$.cover_img_url.value,
+          'issue[price]': parseFloat(this.$.price.value)};
+        return params;
+      },
+      responseReceived: function(ev){
+        this.fire('cb-issue-created', ev.detail.response);
+      }
+    });
+  </script>
+</polymer-element>
+

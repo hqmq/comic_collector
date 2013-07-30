@@ -1,5 +1,5 @@
-<!-- <link rel="import" href="cb-issue.html" /> -->
 <link rel="import" href="../polymer-elements/polymer-ajax/polymer-ajax.html" />
+<link rel="import" href="cb-new-issue.html" />
 <polymer-element name="cb-book" attributes="name cover_image_url book_id">
   <template>
     <div id="wrapper">
@@ -8,16 +8,21 @@
       <div id="num_issues" class="detail">{{num_issues}} issues</div>
       <div id="total_price" class="detail">Total ${{total_price}}</div>
       <table id="issue-list">
-        <tr><th></th><th>#</th><th>Title</th><th>$</th></tr>
-        <template repeat="{{issues}}">
-          <tr>
-            <td><img class="issue-cover" src="{{cover_image_url}}"/></td>
-            <td>{{number}}</td>
-            <td>{{title}}</td>
-            <td>${{price}}</td>
-          </tr>
-        </template>
+        <thead>
+          <tr><th></th><th>#</th><th>Title</th><th>$</th></tr>
+        </thead>
+        <tbody>
+          <template repeat="{{issues}}" id="issue_template">
+            <tr>
+              <td><img class="issue-cover" src="{{cover_image_url}}"/></td>
+              <td>{{number}}</td>
+              <td>{{title}}</td>
+              <td>${{price.currency}}</td>
+            </tr>
+          </template>
+        </tbody>
       </table>
+      <cb-new-issue book_id="{{book_id}}" on-cb-issue-created="refreshIssueList"></cb-new-issue>
       <polymer-ajax id="ajax" url="/books/{{book_id}}/issues.json" handleAs="json" on-polymer-response="receiveIssueList" auto></polymer-ajax>
     </div>
     <style>
@@ -54,13 +59,30 @@
   <script>
     Polymer('cb-book', {
       num_issues: 0,
-      total_price: 1.24,
+      total_price: 0.0,
+      ready: function(){
+        this.$.issue_template.bindingDelegate = {
+          getBinding: function(model, path, name, node) {
+            var regex = /(.+)\.currency$/
+            var match = path.match(regex);
+            if (match == null)
+              return {value: model[path]};
+
+            path = match[1].trim();
+            var res =  {value: parseFloat(model[path]).toFixed(2)};
+            return res;
+          }
+        }
+      },
       receiveIssueList: function(e){
         this.issues = e.detail.response;
         this.num_issues = this.issues.length;
         this.total_price = this.issues.reduce(function(sum, issue){
           return sum + parseFloat(issue.price);
         }, 0.0).toFixed(2);
+      },
+      refreshIssueList: function(ev, new_issue){
+        this.$.ajax.go();
       }
     });
   </script>

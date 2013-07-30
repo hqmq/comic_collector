@@ -41,13 +41,12 @@ class IssuesController < ApplicationController
   # POST /issues.json
   def create
     @issue = Issue.new(params[:issue])
+    @issue.book_id = params[:book_id]
 
     respond_to do |format|
       if @issue.save
-        format.html { redirect_to @issue, notice: 'Issue was successfully created.' }
-        format.json { render json: @issue, status: :created, location: @issue }
+        format.json { render json: @issue, status: :created }
       else
-        format.html { render action: "new" }
         format.json { render json: @issue.errors, status: :unprocessable_entity }
       end
     end
